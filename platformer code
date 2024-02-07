@@ -1,0 +1,60 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class playerControls : MonoBehaviour
+{
+    // Start is called before the first frame update
+    [Header("Jumping power")]
+    public float jumpingPower = 5f;
+    [Header("playerSpeed")]
+    public float playerSpeed = 5f;
+    [Header("isTouchingGround")]
+    public bool isTouchingGround = true;
+    public Rigidbody2D rb;
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        {
+            transform.position += (Vector3.right * playerSpeed * Time.deltaTime);
+
+
+        }
+
+        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+
+        {
+            transform.position += Vector3.right * -playerSpeed * Time.deltaTime;
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+        {
+
+            if (isTouchingGround == true)
+            {
+
+                rb.AddForce(Vector2.up * jumpingPower, ForceMode2D.Impulse);
+                isTouchingGround = false;
+
+            }
+        }
+       
+
+
+
+    }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+
+
+        if (collision.gameObject.name == "platform")
+        {
+            isTouchingGround = true;
+        }
+
+    }
+}
